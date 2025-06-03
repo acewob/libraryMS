@@ -1,5 +1,8 @@
 const express=require('express')
 const { default: mongoose } = require('mongoose')
+
+
+
 const mpngoose=require('mongoose')
 const {createHandler}=require("graphql-http/lib/use/http")
 const app=express()
@@ -17,13 +20,17 @@ mongoose.connect("mongodb://localhost:27017/libraryMS",{
 
 const schema=buildSchema(`
     type Query{
-        name:String
+        name:String,
+        age:Int,
     }
 `)
 const rootValue={
     name:()=>{
         return "jonh wick"
     },
+    age:()=>{
+        return 25
+    }
 }
 
 app.all('/graphql',createHandler({
@@ -37,5 +44,10 @@ app.get("/",(req,res)=>{
 })
 
 app.listen(4000,()=>{
-    console.log('server running at port 4000')
+    console.log(
+        `server running at port 4000
+    
+        TEST:http://localhost:4000/graphql?query={name,age}`
+
+    )
 })
