@@ -1,32 +1,41 @@
-require('dotenv').config();
-const express=require("express");
-const mongoose=require("mongoose");
-const routes=require("./routes/auth.js");
+const express=require('express')
+const { default: mongoose } = require('mongoose')
+const mpngoose=require('mongoose')
+const {createHandler}=require("graphql-http/lib/use/http")
+const app=express()
+const {buildSchema}=require('graphql')
 
-//connect to database 
-mongoose.connect(
-    process.env.MONGO_URI,{
-        useNewUrlParser:true,
-        useUnifiedTopology:true,
-    }).then(()=>{
-        console.log("Connected to MongoDB!")
-    }).catch((err)=>{
-        console.error("Error connecting to MongoDB",err)
-    });
+mongoose.connect("mongodb://localhost:27017/libraryMS",{
+    useNewUrlParser:true,
+    //useCreateIndex:true,
+    useUnifiedTopology:true
+}).then(()=>{
+    console.log("mongo Db connected")
+}).catch((err)=>{
+    console.log("Error:",err)
+})
 
-const cors=require("cors");
+const schema=buildSchema(`
+    type Query{
+        name:String
+    }
+`)
+const rootValue={
+    name:()=>{
+        return "jonh wick"
+    },
+}
 
-const app=express();
+app.all('/graphql',createHandler({
+    schema:schema,
+    rootValue:rootValue,
+}))
 
-app.use(cors());
-app.use(express.json());
-app.use("/api",routes);
 
 app.get("/",(req,res)=>{
-    res.send("Server is running...");
-});
+    res.send("Hello from backend");
+})
 
-const PORT=process.env.PORT || 4000;
-app.listen(PORT,()=>{
-    console.log(`Server listenning on port ${PORT}`);
-});
+app.listen(4000,()=>{
+    console.log('server running at port 4000')
+})
