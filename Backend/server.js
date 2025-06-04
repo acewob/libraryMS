@@ -1,6 +1,6 @@
 const express=require('express')
 const { default: mongoose } = require('mongoose')
-
+const {ruruHTML}=require('ruru/server')
 
 
 const mpngoose=require('mongoose')
@@ -38,6 +38,10 @@ app.all('/graphql',createHandler({
     rootValue:rootValue,
 }))
 
+app.get('/',(_req,res)=>{
+    res.type('html');
+    res.end(ruruHTML({endpoint:'/graphql'}));
+})
 
 app.get("/",(req,res)=>{
     res.send("Hello from backend");
