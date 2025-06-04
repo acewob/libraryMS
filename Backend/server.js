@@ -20,16 +20,24 @@ mongoose.connect("mongodb://localhost:27017/libraryMS",{
 
 const schema=buildSchema(`
     type Query{
-        name:String,
+        name(jina:String!):String,
         age:Int,
+        isAdmin:Boolean,
+        area:Float,
+        hobbies:[String],
     }
 `)
 const rootValue={
-    name:()=>{
-        return "jonh wick"
+    name:({jina})=>{
+        return "habari yako "+jina;
     },
     age:()=>{
         return 25
+    },
+    isAdmin:false,
+    area:30.56,
+    hobbies:()=>{
+        return ["F1","Blue","Jumping","Case study"]
     }
 }
 
