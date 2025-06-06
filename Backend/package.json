@@ -2,8 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "scripts": {
-    "dev": "node server.js"
+    "test": "echo \"Error: no test specified \"&& extit 1"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "graphql": "^16.11.0",
     "graphql-http": "^1.22.4",
     "graphql-yoga": "^5.13.5",
+    "lodash": "^4.17.21",
     "mongoose": "^8.15.1",
     "nodemon": "^3.1.10",
     "ruru": "^2.0.0-beta.22"

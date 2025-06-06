@@ -1,113 +1,23 @@
-const express=require('express')
-const { default: mongoose } = require('mongoose')
-const {ruruHTML}=require('ruru/server')
+import express from'express'
+import {ruruHTML} from'ruru/server'
+import { createYoga } from 'graphql-yoga';
+import { schema } from './src/graphql/index.js';
 
-
-const mpngoose=require('mongoose')
-const {createHandler}=require("graphql-http/lib/use/http")
-const app=express()
-const {buildSchema, GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt}=require('graphql')
-
-mongoose.connect("mongodb://localhost:27017/libraryMS",{
-    useNewUrlParser:true,
-    //useCreateIndex:true,
-    useUnifiedTopology:true
-}).then(()=>{
-    console.log("mongo Db connected")
-}).catch((err)=>{
-    console.log("Error:",err)
+const yoga=createYoga({
+    schema,
 })
-/*
-const schema=buildSchema(`
-    type Query{
-        name(jina:String!):String,
-        age:Int,
-        isAdmin:Boolean,
-        area:Float,
-        hobbies:[String],
-        user:User
-    }
-    type User{
-        id:Int,
-        name:String!
-    }
-`)
-*/
-/*
-const rootValue={
-    name:({jina})=>{
-        return "habari yako "+jina;
-    },
-    age:()=>{
-        return 25
-    },
-    isAdmin:false,
-    area:30.56,
-    hobbies:()=>{
-        return ["F1","Blue","Jumping","Case study"]
-    },
-    user:()=>{
-        return {
-            id:1,
-            name:"buddy"
-        }
-    }
-}
-*/
+const app=express()
 
-const User=new GraphQLObjectType({
-    name:"User",
-    fields:{
-        id:{
-            type:GraphQLInt
-        },
-        name:{
-            type:GraphQLString
-        }
-    }
-});
-
-const schema=new GraphQLSchema({
-    query:new GraphQLObjectType({
-        name:"Query",
-        fields:{
-            hello:{
-                type:GraphQLString,
-                resolve:()=>{
-                    return "hello world!";
-                },
-            },
-             user:{
-                type:User,
-                resolve:()=>{
-                    return{
-                        id:1,
-                        name:"buddy",
-                    };
-                },
-            },
-        },
-    }),
-});
-
-app.all('/graphql',createHandler({
-    schema
-}))
+app.all("/graphql",yoga);
 
 app.get('/',(_req,res)=>{
     res.type('html');
     res.end(ruruHTML({endpoint:'/graphql'}));
 })
 
-app.get("/",(req,res)=>{
-    res.send("Hello from backend");
-})
 
 app.listen(4000,()=>{
     console.log(
-        `server running at port 4000
-    
-        TEST:http://localhost:4000/graphql?query={name,age}`
-
+        `server running at port 4000`
     )
 })
