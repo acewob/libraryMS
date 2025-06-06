@@ -1,10 +1,22 @@
 export const typeDefs=`
-extend type Query{
+type Query{
     user:User
 }
+type Mutation{
+    createUser(user:NewUserInput!):User
+}
+
+
+input NewUserInput{
+    name:String!
+    age:Int!
+}
+
+
 type User{
     id:Int
     name:String
+    age:Int
 }
 `
 
@@ -17,9 +29,18 @@ export const resolvers={
             }
         }
     },
+    Mutation:{
+        createUser:(_,{user})=>{
+            console.log("Creating user");
+            return{
+                id:2,
+                ...user,
+            }
+        }
+    },
     User:{
         name:(obj)=>{
-            return obj.name.toUpperCase();
+            return obj.name.trim().toUpperCase();
         }
     }
 };
