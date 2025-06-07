@@ -30,8 +30,9 @@ export const resolvers={
         }
     },
     Mutation:{
-        createUser:(_,{user})=>{
-            console.log("Creating user");
+        createUser:async(_,{user},{mongo})=>{
+            const users=await mongo.users.find().toArray();
+            console.log(users);
             return{
                 id:2,
                 ...user,
