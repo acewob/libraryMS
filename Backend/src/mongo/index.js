@@ -1,4 +1,4 @@
-import {Collection, MongoClient,ServerApiVersion} from 'mongodb';
+import { MongoClient,ServerApiVersion} from 'mongodb';
 
 const uri="mongodb://localhost:27017/lms";
 

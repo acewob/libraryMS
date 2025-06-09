@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 export const typeDefs=`
 type Query{
     users:[User!]!
-    user(id:ID!):User
+    user(email:String!):User
 }
 type Mutation{
     createUser(user:NewUserInput!):User
@@ -31,15 +31,14 @@ export const resolvers={
         users:(_,args,{mongo})=>{
             return mongo.users.find().toArray();
         },
-        user:async (obj,{id},{mongo})=>{
-            return mongo.users.findOne({_id: new ObjectId(id)});
+        user:async (obj,{email},{mongo})=>{
+            return mongo.users.findOne({email});
         },
     },
     Mutation:{
         createUser:async(_,{user},{mongo})=>{
-            const response=await mongo.users.insertOne(user);
+            const response=await mongo.users.insertOne(user );
             return{
-                id:response.insertedId,
                 ...user,
             }
         },
