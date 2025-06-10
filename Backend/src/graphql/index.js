@@ -11,7 +11,7 @@ const queries=`
 
 const resolvers={
     Query:{
-        hello:()=>"Helllo from yoga",
+        hello:()=>"Hello from yoga",
     },
 };
 

@@ -3,6 +3,8 @@ import {ruruHTML} from'ruru/server'
 import { createYoga } from 'graphql-yoga';
 import { schema } from './src/graphql/index.js';
 import { setUpDatabase } from './src/mongo/index.js';
+import cors from 'cors';
+
 
 const yoga=createYoga({
     schema,
@@ -14,6 +16,8 @@ const yoga=createYoga({
     }
 });
 const app=express()
+app.use(cors())
+app.use(express.json())
 
 app.all("/graphql",yoga);
 

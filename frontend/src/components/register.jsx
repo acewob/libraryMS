@@ -10,8 +10,10 @@ export default function Register(){
     const handleCreate=async(e)=>{
         e.preventDefault();
         try{
-            const newUser={name,email,age}
-            await axios.post("http://localhost:4000/api/users");
+            const newUser={name,email}
+            await axios.post("http://localhost:4000/register",{
+                newUser
+            });
             const response=await axios.get("http://localhost:4000/api/users");
             setUsers(response.data);
             setName("");
@@ -19,7 +21,7 @@ export default function Register(){
             setAge("");
         }catch(error){
             console.log("Error creating user",error);
-        }
+         }
     };
 
     return (
