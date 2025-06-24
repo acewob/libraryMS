@@ -37,7 +37,7 @@ export const resolvers={
     },
     Mutation:{
         createUser:async(_,{user},{mongo})=>{
-            const response=await mongo.users.insertOne(user );
+            const response=await mongo.users.insertOne(user);
             return{
                 ...user,
             }
